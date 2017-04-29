@@ -1,6 +1,7 @@
-package br.net.brjdevs.d4rk.l1ght.commands;
+package br.net.brjdevs.d4rk.l1ght.commands.utils;
 
 
+import br.net.brjdevs.d4rk.l1ght.utils.Config;
 import br.net.brjdevs.d4rk.l1ght.utils.command.Command;
 import br.net.brjdevs.d4rk.l1ght.utils.command.CommandRegister;
 import br.net.brjdevs.d4rk.l1ght.utils.L1ghtPerms;
@@ -71,6 +72,8 @@ public class CmdHelp implements Command {
                 }
                 description = description.substring(0, description.length() - 2);
             }
+            description = description+String.format("\n\nUsage exemple: %sb64 encode hello\nFor better information, do %shelp (command)", Config.prefix, Config.prefix);
+
 
             MessageEmbed embed = new EmbedBuilder()
                     .setAuthor("L1ght's Help", null, event.getJDA().getSelfUser().getAvatarUrl())
@@ -95,7 +98,7 @@ public class CmdHelp implements Command {
 
     @Override
     public String cmdCategory() {
-        return null;
+        return "Utils";
     }
 
     @Override

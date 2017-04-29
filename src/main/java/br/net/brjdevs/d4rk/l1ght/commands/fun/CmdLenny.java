@@ -1,4 +1,4 @@
-package br.net.brjdevs.d4rk.l1ght.commands;
+package br.net.brjdevs.d4rk.l1ght.commands.fun;
 
 import br.net.brjdevs.d4rk.l1ght.utils.command.Command;
 import br.net.brjdevs.d4rk.l1ght.utils.L1ghtPerms;

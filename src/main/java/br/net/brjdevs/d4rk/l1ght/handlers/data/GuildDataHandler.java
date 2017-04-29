@@ -1,4 +1,4 @@
-package br.net.brjdevs.d4rk.l1ght.utils.data;
+package br.net.brjdevs.d4rk.l1ght.handlers.data;
 
 import br.net.brjdevs.d4rk.l1ght.L1ght;
 import br.net.brjdevs.d4rk.l1ght.utils.L1ghtPerms;
@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class GuildData {
+public class GuildDataHandler {
 
     public static boolean hasGuildPerm(String userId, String guildId, List<L1ghtPerms> permsList) {
         HashMap<String, List<L1ghtPerms>> hashMap = loadGuildPerms(guildId);

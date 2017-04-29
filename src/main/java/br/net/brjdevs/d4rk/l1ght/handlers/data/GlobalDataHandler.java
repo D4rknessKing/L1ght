@@ -1,4 +1,4 @@
-package br.net.brjdevs.d4rk.l1ght.utils.data;
+package br.net.brjdevs.d4rk.l1ght.handlers.data;
 
 import br.net.brjdevs.d4rk.l1ght.L1ght;
 
@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class GlobalData {
+public class GlobalDataHandler {
 
     public static Boolean hasGlobalPerm(String userId, List<L1ghtPerms> permsList) {
         HashMap<String, List<L1ghtPerms>> hashMap = loadGlobalPerms();

@@ -1,49 +1,45 @@
-package br.net.brjdevs.d4rk.l1ght.commands;
+package br.net.brjdevs.d4rk.l1ght.commands.fun;
 
+import br.net.brjdevs.d4rk.l1ght.utils.Config;
 import br.net.brjdevs.d4rk.l1ght.utils.command.Command;
 import br.net.brjdevs.d4rk.l1ght.utils.L1ghtPerms;
-import com.sun.deploy.net.URLEncoder;
+import com.mashape.unirest.http.Unirest;
 import javafx.util.Pair;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
-public class CmdDoge implements Command {
+public class CmdYoda implements Command{
+
+
     @Override
     public void cmdRun(GuildMessageReceivedEvent event, String[] args) {
 
-        String ata = String.join("/", args);
-        Random random = new Random();
+        String yoda = "Failed to contact API";
+        String sentence = String.join("+", args);
 
-        try{
-            ata = URLEncoder.encode(ata, "UTF-8");
+        try {
+            yoda = Unirest.get("https://yoda.p.mashape.com/yoda?sentence=" + sentence)
+                    .header("X-Mashape-Key", Config.mashapeKey)
+                    .asStringAsync().get().getBody();
         }catch (Exception e) {
 
         }
 
-        MessageEmbed embed = new EmbedBuilder()
-                .setAuthor("Dogified!", null, "http://i1.kym-cdn.com/entries/icons/facebook/000/013/564/aP2dv.jpg")
-                .setImage("http://dogr.io/"+ata+".png?split=false")
-                .setColor(new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255)))
-                .build();
-        event.getChannel().sendMessage(embed).queue();
+        event.getChannel().sendMessage("**Yoda says: **"+yoda).queue();
 
     }
 
     @Override
     public String cmdName() {
-        return "doge";
+        return "yoda";
     }
 
     @Override
     public String cmdDescription() {
-        return "Dogify your input!";
+        return "Translate the given string to the yoda speak.";
     }
 
     @Override

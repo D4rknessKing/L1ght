@@ -13,7 +13,6 @@ public class L1ght {
     static JDA jda;
 
     public static void main(String[] args) {
-
         CommandRegistry.registerCmds();
         Config.loadConfig();
 

@@ -50,7 +50,8 @@ public class MessageHandler {
                                         }
                                     }
                                 }
-                                event.getChannel().sendMessage("**Missing arguments!**" +
+                                usage = Config.prefix+cmd.cmdName()+" "+usage;
+                                event.getChannel().sendMessage("**Error: **Missing arguments!\n" +
                                         "**Correct usage: **`"+usage+"`").queue();
                                 return;
                             }else{
