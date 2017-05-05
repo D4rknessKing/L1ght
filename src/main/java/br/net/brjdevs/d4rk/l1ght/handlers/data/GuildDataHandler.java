@@ -16,45 +16,6 @@ import java.util.List;
 
 public class GuildDataHandler {
 
-    public static boolean hasGuildPerm(String userId, String guildId, List<L1ghtPerms> permsList) {
-        HashMap<String, List<L1ghtPerms>> hashMap = loadGuildPerms(guildId);
-        if(hashMap.get(userId) == null) {
-            createGuildUserPerm(userId, guildId);
-            hashMap = loadGuildPerms(guildId);
-        }
-        if(hashMap.get(userId).containsAll(permsList)) {
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    public static void addGuildPerm(String userId, String guildId, L1ghtPerms lperm) {
-        HashMap<String, List<L1ghtPerms>> hashMap = loadGuildPerms(guildId);
-        if(hashMap.get(userId) == null) {
-            createGuildUserPerm(userId, guildId);
-            hashMap = loadGuildPerms(guildId);
-        }
-        if(hashMap.get(userId).contains(lperm)) {
-            return;
-        }
-        hashMap.get(userId).add(lperm);
-        saveGuildPerm(guildId, hashMap);
-    }
-
-    public static void removeGuildPerm(String userId, String guildId, L1ghtPerms lperm) {
-        HashMap<String, List<L1ghtPerms>> hashMap = loadGuildPerms(guildId);
-        if(hashMap.get(userId) == null) {
-            createGuildUserPerm(userId, guildId);
-            hashMap = loadGuildPerms(guildId);
-        }
-        if(!hashMap.get(userId).contains(lperm)) {
-            return;
-        }
-        hashMap.get(userId).remove(lperm);
-        saveGuildPerm(guildId, hashMap);
-    }
-
     public static void createGuildUserPerm(String userId, String guildId) {
         HashMap<String, List<L1ghtPerms>> hashMap = loadGuildPerms(guildId);
         hashMap.put(userId, Arrays.asList(L1ghtPerms.BASE));

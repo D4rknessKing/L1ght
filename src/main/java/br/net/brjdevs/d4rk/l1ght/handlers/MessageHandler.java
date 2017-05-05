@@ -30,7 +30,7 @@ public class MessageHandler {
 
                     args = Arrays.copyOfRange(args, 1, args.length);
 
-                    if(PermissionHandler.handle(event.getAuthor(), event.getGuild(), cmd.cmdPerm())) {
+                    if(PermissionHandler.hasPerm(event.getAuthor(), event.getGuild(), cmd.cmdPerm())) {
                         List<Pair<String, Boolean>> requiredArgs = cmd.cmdArgs();
                         if(requiredArgs != null) {
                             int required = 0;

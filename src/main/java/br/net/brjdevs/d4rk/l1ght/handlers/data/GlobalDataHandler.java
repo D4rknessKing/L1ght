@@ -19,44 +19,6 @@ import java.util.List;
 
 public class GlobalDataHandler {
 
-    public static Boolean hasGlobalPerm(String userId, List<L1ghtPerms> permsList) {
-        HashMap<String, List<L1ghtPerms>> hashMap = loadGlobalPerms();
-        if(hashMap.get(userId) == null) {
-            return null;
-        }
-        if(hashMap.get(userId).containsAll(permsList)) {
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    public static void addGlobalPerm(String userId, L1ghtPerms lperm) {
-        HashMap<String, List<L1ghtPerms>> hashMap = loadGlobalPerms();
-        if(hashMap.get(userId) == null) {
-            createGlobalUserPerm(userId);
-            hashMap = loadGlobalPerms();
-        }
-        if(hashMap.get(userId).contains(lperm)) {
-            return;
-        }
-        hashMap.get(userId).add(lperm);
-        saveGlobalPerm(hashMap);
-    }
-
-    public static void removeGlobalPerm(String userId, L1ghtPerms lperm) {
-        HashMap<String, List<L1ghtPerms>> hashMap = loadGlobalPerms();
-        if(hashMap.get(userId) == null) {
-            createGlobalUserPerm(userId);
-            hashMap = loadGlobalPerms();
-        }
-        if(!hashMap.get(userId).contains(lperm)) {
-            return;
-        }
-        hashMap.get(userId).remove(lperm);
-        saveGlobalPerm(hashMap);
-    }
-
     public static void createGlobalUserPerm(String userId) {
         HashMap<String, List<L1ghtPerms>> hashMap = loadGlobalPerms();
         hashMap.put(userId, Arrays.asList(L1ghtPerms.BASE));

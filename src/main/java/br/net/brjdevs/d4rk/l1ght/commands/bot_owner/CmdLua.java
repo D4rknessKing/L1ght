@@ -1,5 +1,6 @@
 package br.net.brjdevs.d4rk.l1ght.commands.bot_owner;
 
+import br.net.brjdevs.d4rk.l1ght.handlers.PermissionHandler;
 import br.net.brjdevs.d4rk.l1ght.utils.command.Command;
 import br.net.brjdevs.d4rk.l1ght.utils.L1ghtPerms;
 import javafx.util.Pair;
@@ -20,6 +21,9 @@ public class CmdLua implements Command {
 
         ScriptEngine se = new ScriptEngineManager().getEngineByName("luaj");
         se.put("event", event);
+        se.put("jda", event.getJDA());
+        se.put("PermissionHandler", new PermissionHandler());
+
 
         try {
             Object result = se.eval(code);
@@ -55,7 +59,7 @@ public class CmdLua implements Command {
 
     @Override
     public String cmdDescription() {
-        return "lua code shit";
+        return "Lua code evaluator.";
     }
 
     @Override
@@ -71,7 +75,7 @@ public class CmdLua implements Command {
     @Override
     public List<Pair<String, Boolean>> cmdArgs() {
         List<Pair<String, Boolean>> list = new ArrayList<>();
-        list.add(new Pair<>("Text", true));
+        list.add(new Pair<>("Code", true));
         return list;
     }
 }

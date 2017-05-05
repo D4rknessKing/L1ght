@@ -17,7 +17,7 @@ public class CmdYoda implements Command{
     @Override
     public void cmdRun(GuildMessageReceivedEvent event, String[] args) {
 
-        String yoda = "Failed to contact API";
+        String yoda;
         String sentence = String.join("+", args);
 
         try {
@@ -25,7 +25,8 @@ public class CmdYoda implements Command{
                     .header("X-Mashape-Key", Config.mashapeKey)
                     .asStringAsync().get().getBody();
         }catch (Exception e) {
-
+            event.getChannel().sendMessage("**Error: **"+e.getMessage()).queue();
+            return;
         }
 
         event.getChannel().sendMessage("**Yoda says: **"+yoda).queue();
