@@ -38,7 +38,7 @@ public class CmdUrban implements Command {
                 .addField("Examples:", urban.getString("example"), false)
                 .addField(":thumbsup:", urban.get("thumbs_up").toString(), true)
                 .addField(":thumbsdown:", urban.get("thumbs_down").toString(), true)
-                .setFooter("Requested by: " + event.getAuthor().getName(), event.getAuthor().getAvatarUrl())
+                .setFooter("Requested by: " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator(), event.getAuthor().getAvatarUrl())
                 .setColor(event.getMember().getColor())
                 .build();
 

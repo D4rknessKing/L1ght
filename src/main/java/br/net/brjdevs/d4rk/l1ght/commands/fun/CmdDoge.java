@@ -31,7 +31,7 @@ public class CmdDoge implements Command {
                 .setAuthor("Dogified!", null, "http://i1.kym-cdn.com/entries/icons/facebook/000/013/564/aP2dv.jpg")
                 .setImage("http://dogr.io/"+ata+".png?split=false")
                 .setColor(new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255)))
-                .setFooter("Requested by: " + event.getAuthor().getName(), event.getAuthor().getAvatarUrl())
+                .setFooter("Requested by: " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator(), event.getAuthor().getAvatarUrl())
                 .build();
         event.getChannel().sendMessage(embed).queue();
 

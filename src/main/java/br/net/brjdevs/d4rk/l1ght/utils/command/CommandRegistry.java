@@ -1,13 +1,9 @@
 package br.net.brjdevs.d4rk.l1ght.utils.command;
 
-import br.net.brjdevs.d4rk.l1ght.commands.bot_owner.CmdLua;
-import br.net.brjdevs.d4rk.l1ght.commands.bot_owner.CmdRestart;
-import br.net.brjdevs.d4rk.l1ght.commands.bot_owner.CmdShutdown;
 import br.net.brjdevs.d4rk.l1ght.commands.fun.*;
-import br.net.brjdevs.d4rk.l1ght.commands.utils.CmdHelp;
-import br.net.brjdevs.d4rk.l1ght.commands.utils.CmdInvite;
-import br.net.brjdevs.d4rk.l1ght.commands.utils.CmdPing;
-import br.net.brjdevs.d4rk.l1ght.commands.utils.CmdB64;
+import br.net.brjdevs.d4rk.l1ght.commands.bot_owner.*;
+import br.net.brjdevs.d4rk.l1ght.commands.info.*;
+import br.net.brjdevs.d4rk.l1ght.commands.utils.*;
 
 public class CommandRegistry {
 
@@ -24,6 +20,11 @@ public class CommandRegistry {
         CommandRegister.register(new CmdShutdown());
         CommandRegister.register(new CmdRestart());
         CommandRegister.register(new CmdUrban());
+        CommandRegister.register(new CmdGuild());
+        CommandRegister.register(new CmdRole());
+        CommandRegister.register(new CmdMessage());
+        CommandRegister.register(new CmdQuote());
+        CommandRegister.register(new CmdUser());
     }
 
 }

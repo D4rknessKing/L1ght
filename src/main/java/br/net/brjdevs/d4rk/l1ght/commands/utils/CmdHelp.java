@@ -46,7 +46,7 @@ public class CmdHelp implements Command {
                 MessageEmbed embed = new EmbedBuilder()
                         .setTitle("Command Information:", null)
                         .setDescription(description)
-                        .setFooter("Requested by: " + event.getAuthor().getName(), event.getAuthor().getAvatarUrl())
+                        .setFooter("Requested by: " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator(), event.getAuthor().getAvatarUrl())
                         .setColor(event.getMember().getColor())
                         .build();
 
@@ -78,7 +78,7 @@ public class CmdHelp implements Command {
             MessageEmbed embed = new EmbedBuilder()
                     .setAuthor("L1ght's Help", null, event.getJDA().getSelfUser().getAvatarUrl())
                     .setDescription(description)
-                    .setFooter("Requested by: " + event.getAuthor().getName(), event.getAuthor().getAvatarUrl())
+                    .setFooter("Requested by: " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator(), event.getAuthor().getAvatarUrl())
                     .setColor(event.getMember().getColor())
                     .build();
 
