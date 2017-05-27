@@ -1,6 +1,7 @@
 package br.net.brjdevs.d4rk.l1ght.commands.bot_owner;
 
 import br.net.brjdevs.d4rk.l1ght.handlers.PermissionHandler;
+import br.net.brjdevs.d4rk.l1ght.music.AudioUtils;
 import br.net.brjdevs.d4rk.l1ght.utils.command.Command;
 import br.net.brjdevs.d4rk.l1ght.utils.L1ghtPerms;
 import javafx.util.Pair;
@@ -22,7 +23,8 @@ public class CmdLua implements Command {
         ScriptEngine se = new ScriptEngineManager().getEngineByName("luaj");
         se.put("event", event);
         se.put("jda", event.getJDA());
-        se.put("PermissionHandler", new PermissionHandler());
+        se.put("permHandler", new PermissionHandler());
+        se.put("audioConnections", AudioUtils.connections);
 
 
         try {
@@ -69,7 +71,7 @@ public class CmdLua implements Command {
 
     @Override
     public List<L1ghtPerms> cmdPerm() {
-        return Arrays.asList(L1ghtPerms.BASE, L1ghtPerms.ADMIN);
+        return Arrays.asList(L1ghtPerms.BASE, L1ghtPerms.EVAL, L1ghtPerms.ADMIN);
     }
 
     @Override

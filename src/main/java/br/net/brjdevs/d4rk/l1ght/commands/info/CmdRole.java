@@ -21,7 +21,11 @@ public class CmdRole implements Command {
 
         String shit = String.join(" ",args);
 
-        Role role = event.getGuild().getRoleById(shit);
+        Role role = null;
+
+        try{
+            role = event.getGuild().getRoleById(shit);
+        }catch(Exception ignored){}
 
         List ata = event.getGuild().getRolesByName(shit, false);
         if (ata.size() >= 1) {
@@ -38,7 +42,6 @@ public class CmdRole implements Command {
                 mem++;
             }
         }
-        if(mem >= 1) members = members.substring(0, members.length()-2);
 
         String permissions = "";
         for (Permission p : role.getPermissions()) {

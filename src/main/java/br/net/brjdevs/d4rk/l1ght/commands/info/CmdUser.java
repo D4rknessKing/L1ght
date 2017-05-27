@@ -18,7 +18,11 @@ public class CmdUser implements Command {
 
         String shit = String.join(" ",args);
 
-        User usr = event.getJDA().getUserById(shit);
+        User usr = null;
+
+        try{
+            usr = event.getJDA().getUserById(shit);
+        }catch(Exception ignored){}
 
         List ata = event.getJDA().getUsersByName(shit, false);
         if (ata.size() >= 1) {

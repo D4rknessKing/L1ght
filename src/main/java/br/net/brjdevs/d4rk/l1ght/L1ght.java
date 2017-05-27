@@ -1,6 +1,7 @@
 package br.net.brjdevs.d4rk.l1ght;
 
 import br.net.brjdevs.d4rk.l1ght.listeners.GuildMessageListener;
+import br.net.brjdevs.d4rk.l1ght.music.AudioUtils;
 import br.net.brjdevs.d4rk.l1ght.utils.Config;
 import br.net.brjdevs.d4rk.l1ght.utils.command.CommandRegistry;
 import net.dv8tion.jda.core.AccountType;
@@ -10,11 +11,13 @@ import net.dv8tion.jda.core.entities.Game;
 
 public class L1ght {
 
-    static JDA jda;
+    public static JDA jda;
 
     public static void main(String[] args) {
         CommandRegistry.registerCmds();
         Config.loadConfig();
+        AudioUtils.init();
+        System.setProperty("ui4j.headless", "true");
 
         try {
             jda = new JDABuilder(AccountType.BOT)

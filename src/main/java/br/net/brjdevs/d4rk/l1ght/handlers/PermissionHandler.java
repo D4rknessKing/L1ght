@@ -9,9 +9,6 @@ import net.dv8tion.jda.core.entities.User;
 import java.util.HashMap;
 import java.util.List;
 
-
-
-
 public class PermissionHandler {
 
     public static boolean hasPerm(User user, Guild guild, List<L1ghtPerms> lperm) {

@@ -1,6 +1,11 @@
 package br.net.brjdevs.d4rk.l1ght.handlers;
 
+import br.net.brjdevs.d4rk.l1ght.music.lyrics.LyricsSearchQuery;
+import br.net.brjdevs.d4rk.l1ght.music.lyrics.LyricsUtils;
+import br.net.brjdevs.d4rk.l1ght.music.SongSearchQuery;
+import br.net.brjdevs.d4rk.l1ght.music.AudioUtils;
 import br.net.brjdevs.d4rk.l1ght.utils.Config;
+import br.net.brjdevs.d4rk.l1ght.utils.Logger;
 import br.net.brjdevs.d4rk.l1ght.utils.command.Command;
 import br.net.brjdevs.d4rk.l1ght.utils.command.CommandRegister;
 import javafx.util.Pair;
@@ -16,6 +21,32 @@ public class MessageHandler {
         String rawContent = event.getMessage().getRawContent();
 
         HashMap<String, Command> commandMap = CommandRegister.getCommandMap();
+
+        for(SongSearchQuery as : AudioUtils.queryList) {
+            if(as.guildId.equals(event.getGuild().getId()) && as.userId.equals(event.getAuthor().getId())) {
+                try{
+                    int value = Integer.valueOf(rawContent);
+                    as.choose(value);
+                    return;
+                }catch (Exception e){
+                    as.choose(0);
+                    return;
+                }
+            }
+        }
+
+        for(LyricsSearchQuery as : LyricsUtils.queryList) {
+            if(as.guildId.equals(event.getGuild().getId()) && as.userId.equals(event.getAuthor().getId())) {
+                try{
+                    int value = Integer.valueOf(rawContent);
+                    as.choose(value);
+                    return;
+                }catch (Exception e){
+                    as.choose(0);
+                    return;
+                }
+            }
+        }
 
         if (rawContent.startsWith(Config.prefix)) {
             rawContent = rawContent.substring(1);
@@ -55,10 +86,12 @@ public class MessageHandler {
                                         "**Correct usage: **`"+usage+"`").queue();
                                 return;
                             }else{
+                                Logger.logCmd(cmd, event);
                                 cmd.cmdRun(event, args);
                                 return;
                             }
                         }else{
+                            Logger.logCmd(cmd, event);
                             cmd.cmdRun(event, args);
                             return;
                         }
