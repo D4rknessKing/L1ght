@@ -34,7 +34,7 @@ public class CmdRestart implements Command{
         command.add("-jar");
         command.add(currentJar.getPath());
 
-        event.getChannel().sendMessage("Buh-bye! :wave:").queue();
+        event.getChannel().sendMessage("Restarting! :wave:").complete();
 
         ProcessBuilder builder = new ProcessBuilder(command);
         try{

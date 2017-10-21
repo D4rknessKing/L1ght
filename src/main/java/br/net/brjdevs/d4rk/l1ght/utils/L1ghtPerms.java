@@ -7,5 +7,6 @@ public enum L1ghtPerms {
     MUSIC,
     DJ,
     EVAL,
+    GUILD,
     ADMIN
 }

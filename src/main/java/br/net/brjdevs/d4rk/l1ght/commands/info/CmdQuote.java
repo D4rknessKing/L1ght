@@ -39,9 +39,10 @@ public class CmdQuote implements Command {
 
 
         MessageEmbed embed = new EmbedBuilder()
-                .setAuthor("Message by: "+mem.getAuthor().getName()+", at: "+mem.getCreationTime().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), null, mem.getAuthor().getAvatarUrl())
+                .setAuthor("Message by: "+mem.getAuthor().getName(), null, mem.getAuthor().getAvatarUrl())
                 .setDescription(mem.getRawContent())
-                .setFooter("Requested by: " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator(), event.getAuthor().getAvatarUrl())
+                .setFooter("Message sent on " + "#" + mem.getChannel().getName(), null)
+                .setTimestamp(mem.getCreationTime())
                 .setColor(color)
                 .build();
 

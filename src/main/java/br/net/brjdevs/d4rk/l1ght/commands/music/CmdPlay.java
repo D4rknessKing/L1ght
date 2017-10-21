@@ -22,7 +22,7 @@ public class CmdPlay implements Command{
         if (event.getMember().getVoiceState().getAudioChannel() == null) { event.getChannel().sendMessage("**Error: **You're not connected to any voice channel.").queue(); return; }
 
         if (AudioUtils.connections.get(event.getGuild().getId()) == null){
-            if (event.getMember().hasPermission(event.getMember().getVoiceState().getChannel(), Permission.VOICE_CONNECT) && event.getMember().hasPermission(event.getMember().getVoiceState().getChannel(), Permission.VOICE_SPEAK)) {
+            if (event.getGuild().getSelfMember().hasPermission(event.getMember().getVoiceState().getChannel(), Permission.VOICE_CONNECT) && event.getGuild().getSelfMember().hasPermission(event.getMember().getVoiceState().getChannel(), Permission.VOICE_SPEAK)) {
                 AudioPlayer player = AudioUtils.playerManager.createPlayer();
                 AudioManager am = event.getGuild().getAudioManager();
                 am.setSendingHandler(new AudioPlayerSendHandler(player));

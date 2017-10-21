@@ -11,15 +11,22 @@ import java.nio.file.Paths;
 public class Config {
 
     public static String prefix;
+    public static String hardPrefix;
     public static String defaultPlaying;
     public static boolean isStreaming;
 
     public static String token;
     public static String mashapeKey;
+    public static String vagalumeKey;
+
+    public static String twitterConsumer;
+    public static String twitterConsumerSecret;
+    public static String twitterToken;
+    public static String twitterTokenSecret;
 
     public static void loadConfig() {
 
-        Path globalDataPath = Paths.get(new File(new File(L1ght.class.getProtectionDomain().getCodeSource().getLocation().getFile()).getParentFile(), "config.json").getAbsolutePath());
+        Path globalDataPath = Paths.get(getConfigFile().getAbsolutePath());
 
         if(Files.notExists(globalDataPath)) {
             createConfig();
@@ -35,25 +42,38 @@ public class Config {
 
         JSONObject json = new JSONObject(jsons);
 
-        prefix = (String) json.get("prefix");
-        defaultPlaying = (String) json.get("defaultPlaying");
+        prefix = json.getString("prefix");
+        hardPrefix = json.getString("hardPrefix");
+        defaultPlaying = json.getString("defaultPlaying");
         defaultPlaying = defaultPlaying.replace("%", prefix);
-        isStreaming = (boolean) json.get("isStreaming");
+        isStreaming = json.getBoolean("isStreaming");
 
-        token = (String) json.get("token");
-        mashapeKey = (String) json.get("mashapeKey");
+        token = json.getString("token");
+        mashapeKey = json.getString("mashapeKey");
+        vagalumeKey = json.getString("vagalumeKey");
+
+        twitterConsumer = json.getString("twitterConsumer");
+        twitterConsumerSecret = json.getString("twitterConsumerSecret");
+        twitterToken = json.getString("twitterToken");
+        twitterTokenSecret = json.getString("twitterTokenSecret");
     }
 
 
     public static void createConfig() {
-        Path globalDataPath = Paths.get(new File(new File(L1ght.class.getProtectionDomain().getCodeSource().getLocation().getFile()).getParentFile(), "config.json").getAbsolutePath());
+        Path globalDataPath = Paths.get(getConfigFile().getAbsolutePath());
 
         JSONObject jfile = new JSONObject();
         jfile.put("prefix", "");
+        jfile.put("hardPrefix", "");
         jfile.put("defaultPlaying", "");
         jfile.put("isStreaming", false);
         jfile.put("token", "");
         jfile.put("mashapeKey", "");
+        jfile.put("vagalumeKey", "");
+        jfile.put("twitterConsumer", "");
+        jfile.put("twitterConsumerSecret", "");
+        jfile.put("twitterToken", "");
+        jfile.put("twitterTokenSecret","");
 
 
         try{
@@ -61,5 +81,29 @@ public class Config {
         }catch (Exception e){
             System.out.println(e);
         }
+    }
+
+    public static File getGuildDataFolder() {
+        if(System.getProperty("os.name").startsWith("Windows")){
+            return new File(new File(L1ght.class.getProtectionDomain().getCodeSource().getLocation().getFile()).getParentFile(), "\\guildData");
+        }else{
+            return new File(new File(L1ght.class.getProtectionDomain().getCodeSource().getLocation().getFile()).getParentFile(), "/guildData");
+        }
+    }
+
+    public static File getGuildDataFile(String guildId) {
+        if(System.getProperty("os.name").startsWith("Windows")){
+            return new File(new File(L1ght.class.getProtectionDomain().getCodeSource().getLocation().getFile()).getParentFile(), "\\guildData\\"+guildId+".json");
+        }else{
+            return new File(new File(L1ght.class.getProtectionDomain().getCodeSource().getLocation().getFile()).getParentFile(), "/guildData/"+guildId+".json");
+        }
+    }
+
+    public static File getGlobalDataFile() {
+        return new File(new File(L1ght.class.getProtectionDomain().getCodeSource().getLocation().getFile()).getParentFile(), "globalData.json");
+    }
+
+    public static File getConfigFile() {
+        return new File(new File(L1ght.class.getProtectionDomain().getCodeSource().getLocation().getFile()).getParentFile(), "config.json");
     }
 }

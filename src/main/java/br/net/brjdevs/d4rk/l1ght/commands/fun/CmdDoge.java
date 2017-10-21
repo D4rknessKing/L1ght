@@ -44,7 +44,7 @@ public class CmdDoge implements Command {
 
     @Override
     public String cmdDescription() {
-        return "Dogify your input!";
+        return "Generate an awesome doge styled meme using your input!";
     }
 
     @Override

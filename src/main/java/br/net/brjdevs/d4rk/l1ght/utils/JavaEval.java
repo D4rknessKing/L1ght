@@ -1,6 +1,5 @@
 package br.net.brjdevs.d4rk.l1ght.utils;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
+
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
@@ -33,8 +32,11 @@ public class JavaEval {
         addImport("net.dv8tion.jda.core.managers.*");
         addImport("net.dv8tion.jda.core.utils.*");
         addImport("net.dv8tion.jda.core.events.*");
+        addImport("net.dv8tion.jda.core.entities.impl.*");
         addImport("net.dv8tion.jda.core.events.message.*");
         addImport("net.dv8tion.jda.core.events.message.guild.*");
+
+        addImport("br.net.brjdevs.d4rk.l1ght.handlers.feeds.*");
     }
 
     public static void addImport(String name) {
@@ -67,7 +69,7 @@ public class JavaEval {
             if(errcode != 0) {
                 String err = new String(out.toByteArray(), Charset.defaultCharset());
                 if(err.length() > 1000) {
-                    err = paste(err);
+                    err = Paste.toHastebin(err);
                 }
                 event.getChannel().sendMessage(new EmbedBuilder()
                         .setTitle("Error: ", null)
@@ -120,7 +122,7 @@ public class JavaEval {
                 event.getChannel().sendMessage(new EmbedBuilder()
                         .setTitle("Success: ", null)
                         .setColor(new Color(65280))
-                        .setDescription("Executed without error and with the following returns:"+"```\n"+paste(v)+"```")
+                        .setDescription("Executed without error and with the following returns:"+"```\n"+Paste.toHastebin(v)+"```")
                         .build()
                 ).queue();
                 return;
@@ -137,7 +139,7 @@ public class JavaEval {
             for(StackTraceElement st : e.getStackTrace()) {
                 stack = stack + "\n    at " + st.toString();
             }
-            stack = stack + "\nCaused by: " + e.getCause().getClass().getName();
+            stack = stack + "\nCaused by: " + e;
             for(StackTraceElement st : e.getCause().getStackTrace()) {
                 stack = stack + "\n    at " + st.toString();
             }
@@ -148,7 +150,7 @@ public class JavaEval {
                             "```java\nMessage: "+e.getMessage()+
                             "\nClass: "+e.getClass().getName()+
                             "\nCaused by: "+e.getCause().getClass().getName()+
-                            "\nFull StackTrace: "+paste(stack)+
+                            "\nFull StackTrace: "+Paste.toHastebin(stack)+
                             "```")
                     .build()
             ).queue();
@@ -161,23 +163,6 @@ public class JavaEval {
         int read;
         while((read = is.read(buffer)) != -1)
             os.write(buffer, 0, read);
-    }
-
-    public static String paste(String toSend) {
-        try {
-            String pasteToken = Unirest.post("https://hastebin.com/documents")
-                    .header("User-Agent", "L1ght")
-                    .header("Content-Type", "text/plain")
-                    .body(toSend)
-                    .asJson()
-                    .getBody()
-                    .getObject()
-                    .getString("key");
-            return "https://hastebin.com/" + pasteToken;
-        } catch (UnirestException e) {
-            e.printStackTrace();
-            return "Caught an unexpected ``" + e.getMessage() + "``" + " while trying to upload paste, check logs";
-        }
     }
 
     public static class DummyClassLoader extends ClassLoader {

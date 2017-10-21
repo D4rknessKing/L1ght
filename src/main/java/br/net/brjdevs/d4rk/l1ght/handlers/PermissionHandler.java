@@ -3,9 +3,11 @@ package br.net.brjdevs.d4rk.l1ght.handlers;
 import br.net.brjdevs.d4rk.l1ght.handlers.data.GuildDataHandler;
 import br.net.brjdevs.d4rk.l1ght.handlers.data.GlobalDataHandler;
 import br.net.brjdevs.d4rk.l1ght.utils.L1ghtPerms;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,10 +15,22 @@ public class PermissionHandler {
 
     public static boolean hasPerm(User user, Guild guild, List<L1ghtPerms> lperm) {
 
-        if(hasGlobalPerm(user.getId(), lperm) != null) {
-            return hasGlobalPerm(user.getId(), lperm);
+        List<L1ghtPerms> copy = new ArrayList<>();
+
+        for (L1ghtPerms lp : lperm) {
+            if(lp == L1ghtPerms.GUILD) {
+                if (!guild.getMember(user).hasPermission(Permission.ADMINISTRATOR)) {
+                    copy.add(lp);
+                }
+            }else{
+                copy.add(lp);
+            }
+        }
+
+         if(hasGlobalPerm(user.getId(), lperm) != null) {
+            return hasGlobalPerm(user.getId(), copy);
         }else{
-            return hasGuildPerm(user.getId(), guild.getId(), lperm);
+            return hasGuildPerm(user.getId(), guild.getId(), copy);
         }
     }
 

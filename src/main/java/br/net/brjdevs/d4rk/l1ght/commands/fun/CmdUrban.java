@@ -53,7 +53,7 @@ public class CmdUrban implements Command {
 
     @Override
     public String cmdDescription() {
-        return "Search your parameters in urban dictionary";
+        return "Search for stuff in the Urban Dictionary";
     }
 
     @Override

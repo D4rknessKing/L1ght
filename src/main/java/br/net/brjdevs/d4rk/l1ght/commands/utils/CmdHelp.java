@@ -41,7 +41,7 @@ public class CmdHelp implements Command {
                         "**Description: **" + cmd.cmdDescription() + "\n" +
                         "**Category: **" + cmd.cmdCategory() + "\n" +
                         "**Permission: **" + cmd.cmdPerm().toString() + "\n" +
-                        "**Usage: **" + "+" + cmd.cmdName() + usage;
+                        "**Usage: **" + Config.hardPrefix + cmd.cmdName() + usage;
 
                 MessageEmbed embed = new EmbedBuilder()
                         .setTitle("Command Information:", null)
@@ -72,7 +72,7 @@ public class CmdHelp implements Command {
                 }
                 description = description.substring(0, description.length() - 2);
             }
-            description = description+String.format("\n\nUsage exemple: %sb64 encode hello\nFor better information, do %shelp (command)", Config.prefix, Config.prefix);
+            description = description+String.format("\n\nUsage exemple: %sb64 encode hello\nFor better information, do %shelp (command)", Config.hardPrefix, Config.hardPrefix);
 
 
             MessageEmbed embed = new EmbedBuilder()

@@ -23,7 +23,7 @@ public class CmdLyrics implements Command{
         if(args.length == 0){
             if (AudioUtils.connections.get(event.getGuild().getId()) != null && AudioUtils.connections.get(event.getGuild().getId()).isRunning){
                 try{
-                    JSONObject json = Unirest.get("https://api.vagalume.com.br/search.excerpt?apikey=660a4395f992ff67786584e238f501aa&q="+
+                    JSONObject json = Unirest.get("https://api.vagalume.com.br/search.excerpt?apikey="+Config.vagalumeKey+"&q="+
                             URLEncoder.encode(AudioUtils.connections.get(event.getGuild().getId()).player.getPlayingTrack().getInfo().title, "UTF-8")+"&limit=5").asJsonAsync().get().getBody().getObject();
                     if(json.getJSONObject("response").getInt("numFound") == 0) {
                         event.getChannel().sendMessage("**Error: **Couldn't find lyrics!").queue();
@@ -57,7 +57,7 @@ public class CmdLyrics implements Command{
                 }
                 String potato = String.join("%20", Arrays.copyOfRange(args, 1, args.length));
                 try{
-                    JSONObject json = Unirest.get("https://api.vagalume.com.br/search.excerpt?apikey=660a4395f992ff67786584e238f501aa&q="+potato+"&limit=5").asJsonAsync().get().getBody().getObject();
+                    JSONObject json = Unirest.get("https://api.vagalume.com.br/search.excerpt?apikey="+Config.vagalumeKey+"&q="+potato+"&limit=5").asJsonAsync().get().getBody().getObject();
                     if(json.getJSONObject("response").getInt("numFound") == 0) {
                         event.getChannel().sendMessage("**Error: **Couldn't find lyrics!").queue();
                         return;
@@ -70,7 +70,7 @@ public class CmdLyrics implements Command{
             }else{
                 String potato = String.join("%20", args);
                 try{
-                    JSONObject json = Unirest.get("https://api.vagalume.com.br/search.excerpt?apikey=660a4395f992ff67786584e238f501aa&q="+potato+"&limit=5").asJsonAsync().get().getBody().getObject();
+                    JSONObject json = Unirest.get("https://api.vagalume.com.br/search.excerpt?apikey="+Config.vagalumeKey+"&q="+potato+"&limit=5").asJsonAsync().get().getBody().getObject();
                     int found = json.getJSONObject("response").getInt("numFound");
                     if(found == 0) {
                         event.getChannel().sendMessage("**Error: **Couldn't find lyrics!").queue();

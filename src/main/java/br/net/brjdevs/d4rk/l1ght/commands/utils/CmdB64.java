@@ -39,7 +39,7 @@ public class CmdB64 implements Command{
 
     @Override
     public String cmdDescription() {
-        return "Encodes to base64 or decodes from base64.";
+        return "Either encode or decode strings using the base64 encryption.";
     }
 
     @Override

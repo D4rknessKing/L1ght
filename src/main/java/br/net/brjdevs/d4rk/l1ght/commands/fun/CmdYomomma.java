@@ -1,43 +1,43 @@
-package br.net.brjdevs.d4rk.l1ght.commands.bot_owner;
+package br.net.brjdevs.d4rk.l1ght.commands.fun;
 
 import br.net.brjdevs.d4rk.l1ght.utils.L1ghtPerms;
 import br.net.brjdevs.d4rk.l1ght.utils.command.Command;
+import com.mashape.unirest.http.Unirest;
 import javafx.util.Pair;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class CmdShutdown implements Command {
-
-
+public class CmdYomomma implements Command {
     @Override
     public void cmdRun(GuildMessageReceivedEvent event, String[] args) {
-
-        event.getChannel().sendMessage("Bye! :wave:").complete();
-        event.getJDA().shutdown();
-        System.exit(0);
-
+        try {
+            event.getChannel().sendMessage("`"+Unirest.get("http://api.yomomma.info/").asJson().getBody().getObject().getString("joke")+"`").queue();
+        }catch(Exception e){
+            event.getChannel().sendMessage("**An unknown error has occurred while doing the HTTP request to the YomamaAPI**").queue();
+            e.printStackTrace();
+        }
     }
 
     @Override
     public String cmdName() {
-        return "shutdown";
+        return "yomomma";
     }
 
     @Override
     public String cmdDescription() {
-        return "pls, we dont need a description for this one.";
+        return "A command that throws insults at yomomma";
     }
 
     @Override
     public String cmdCategory() {
-        return "Bot Owner";
+        return "Fun";
     }
 
     @Override
     public List<L1ghtPerms> cmdPerm() {
-        return Arrays.asList(L1ghtPerms.BASE, L1ghtPerms.ADMIN);
+        return Arrays.asList(L1ghtPerms.BASE);
     }
 
     @Override

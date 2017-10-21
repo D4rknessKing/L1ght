@@ -2,8 +2,10 @@ package br.net.brjdevs.d4rk.l1ght.handlers.data;
 
 import br.net.brjdevs.d4rk.l1ght.L1ght;
 
+import br.net.brjdevs.d4rk.l1ght.utils.Config;
 import br.net.brjdevs.d4rk.l1ght.utils.L1ghtPerms;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -16,7 +18,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-
 public class GlobalDataHandler {
 
     public static void createGlobalUserPerm(String userId) {
@@ -27,6 +28,12 @@ public class GlobalDataHandler {
 
     public static HashMap<String, List<L1ghtPerms>> loadGlobalPerms() {
         JSONObject jfile = loadGlobalData();
+
+        try{
+            jfile.get("globalPerms");
+        }catch(JSONException e){
+            return new HashMap<>();
+        }
 
         HashMap<String, List<L1ghtPerms>> fperms = new HashMap<>();
 
@@ -56,7 +63,7 @@ public class GlobalDataHandler {
     }
 
     public static JSONObject loadGlobalData() {
-        Path globalDataPath = Paths.get(new File(new File(L1ght.class.getProtectionDomain().getCodeSource().getLocation().getFile()).getParentFile(), "globalData.json").getAbsolutePath());
+        Path globalDataPath = Paths.get(Config.getGlobalDataFile().getAbsolutePath());
 
         if(Files.notExists(globalDataPath)) {
             createGlobalData();
@@ -73,10 +80,17 @@ public class GlobalDataHandler {
     }
 
     public static void saveGlobalData(JSONObject perm) {
-        Path globalDataPath = Paths.get(new File(new File(L1ght.class.getProtectionDomain().getCodeSource().getLocation().getFile()).getParentFile(), "globalData.json").getAbsolutePath());
+        Path globalDataPath = Paths.get(Config.getGlobalDataFile().getAbsolutePath());
 
         JSONObject jfile = new JSONObject();
-        jfile.put("globalPerms", perm);
+
+        if (perm != null) {
+            jfile.put("globalPerms", perm);
+        }else{
+            try{
+                jfile.put("globalPerms", loadGlobalData().get("globalPerms"));
+            }catch(JSONException ignored){}
+        }
 
         try{
             Files.write(globalDataPath, jfile.toString().getBytes("UTF-8"));
@@ -86,10 +100,9 @@ public class GlobalDataHandler {
     }
 
     public static void createGlobalData() {
-        Path globalDataPath = Paths.get(new File(new File(L1ght.class.getProtectionDomain().getCodeSource().getLocation().getFile()).getParentFile(), "globalData.json").getAbsolutePath());
+        Path globalDataPath = Paths.get(Config.getGlobalDataFile().getAbsolutePath());
 
         JSONObject jfile = new JSONObject();
-        jfile.put("globalPerms", new JSONObject());
 
         try{
             Files.write(globalDataPath, jfile.toString().getBytes("UTF-8"));
