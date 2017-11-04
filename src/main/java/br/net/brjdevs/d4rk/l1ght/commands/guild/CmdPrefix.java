@@ -17,7 +17,7 @@ public class CmdPrefix implements Command {
     @Override
     public void cmdRun(GuildMessageReceivedEvent event, String[] args) {
         if(args.length < 1) {
-            List<String> prefixes = GuildDataHandler.getGuildPrefixes(event.getGuild().getId());
+            List<String> prefixes = GuildDataHandler.loadGuildPrefixes(event.getGuild().getId());
             if(prefixes.size() == 0){
                 event.getChannel().sendMessage("**Current guild custom prefix: **`"+ Config.prefix + "`").queue();
             }else{
@@ -38,11 +38,11 @@ public class CmdPrefix implements Command {
                     list.add(s);
                 }
             }
-            GuildDataHandler.setGuildPrefixes(event.getGuild().getId(), list);
+            GuildDataHandler.saveGuildPrefixes(event.getGuild().getId(), list);
             PrefixHandler.check();
             event.getChannel().sendMessage("**Successfully changed custom prefix!**").queue();
         }else if(args[0].toLowerCase().equals("reset")) {
-            GuildDataHandler.setGuildPrefixes(event.getGuild().getId(), new ArrayList<>());
+            GuildDataHandler.saveGuildPrefixes(event.getGuild().getId(), new ArrayList<>());
             PrefixHandler.check();
             event.getChannel().sendMessage("**Successfully changed custom prefix!**").queue();
         }else{

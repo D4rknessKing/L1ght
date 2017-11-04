@@ -24,6 +24,8 @@ public class Config {
     public static String twitterToken;
     public static String twitterTokenSecret;
 
+    private static boolean redditStream;
+
     public static void loadConfig() {
 
         Path globalDataPath = Paths.get(getConfigFile().getAbsolutePath());
@@ -56,6 +58,20 @@ public class Config {
         twitterConsumerSecret = json.getString("twitterConsumerSecret");
         twitterToken = json.getString("twitterToken");
         twitterTokenSecret = json.getString("twitterTokenSecret");
+
+        redditStream = json.getBoolean("redditStream");
+    }
+
+    public static boolean isTwitterEnabled() {
+        if(twitterTokenSecret.length() > 5 && twitterToken.length() > 5 && twitterConsumerSecret.length() > 5 && twitterConsumer.length() > 5){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public static boolean isRedditEnabled() {
+        return redditStream;
     }
 
 
@@ -74,6 +90,7 @@ public class Config {
         jfile.put("twitterConsumerSecret", "");
         jfile.put("twitterToken", "");
         jfile.put("twitterTokenSecret","");
+        jfile.put("redditStream", false);
 
 
         try{

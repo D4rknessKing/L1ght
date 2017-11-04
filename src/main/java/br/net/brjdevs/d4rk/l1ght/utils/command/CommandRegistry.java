@@ -4,7 +4,7 @@ import br.net.brjdevs.d4rk.l1ght.commands.fun.*;
 import br.net.brjdevs.d4rk.l1ght.commands.bot_owner.*;
 import br.net.brjdevs.d4rk.l1ght.commands.guild.CmdFeeds;
 import br.net.brjdevs.d4rk.l1ght.commands.guild.CmdPrefix;
-import br.net.brjdevs.d4rk.l1ght.commands.guild.CmdStarboard;
+import br.net.brjdevs.d4rk.l1ght.commands.guild.CmdCustomboard;
 import br.net.brjdevs.d4rk.l1ght.commands.info.*;
 import br.net.brjdevs.d4rk.l1ght.commands.music.*;
 import br.net.brjdevs.d4rk.l1ght.commands.utils.*;
@@ -36,7 +36,7 @@ public class CommandRegistry {
         CommandRegister.register(new CmdQueue());
         CommandRegister.register(new CmdPerm());
         CommandRegister.register(new CmdFeeds());
-        CommandRegister.register(new CmdStarboard());
+        CommandRegister.register(new CmdCustomboard());
         CommandRegister.register(new CmdPrefix());
         CommandRegister.register(new CmdColor());
         CommandRegister.register(new CmdPokedex());

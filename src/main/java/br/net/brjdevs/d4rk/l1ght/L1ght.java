@@ -38,8 +38,12 @@ public class L1ght {
 
         }
 
-        TwitterHandler.start();
-        RedditHandler.start();
+        if(Config.isTwitterEnabled()){
+            TwitterHandler.start();
+        }
+        if(Config.isRedditEnabled()){
+            RedditHandler.start();
+        }
 
         if(Config.isStreaming) {
             jda.getPresence().setGame(Game.of(Config.defaultPlaying, "https://twitch.tv/ "));

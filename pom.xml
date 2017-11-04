@@ -6,7 +6,7 @@
 
     <groupId>br.net.brjdevs.d4rk</groupId>
     <artifactId>l1ght</artifactId>
-    <version>RELEASE</version>
+    <version>1.0</version>
 
     <repositories>
         <repository>

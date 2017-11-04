@@ -1,6 +1,6 @@
 package br.net.brjdevs.d4rk.l1ght.handlers.data;
 
-import br.net.brjdevs.d4rk.l1ght.L1ght;
+import br.net.brjdevs.d4rk.l1ght.handlers.customboard.Customboard;
 import br.net.brjdevs.d4rk.l1ght.handlers.feeds.FeedSubscription;
 import br.net.brjdevs.d4rk.l1ght.utils.Config;
 import br.net.brjdevs.d4rk.l1ght.utils.FeedsType;
@@ -9,7 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -109,7 +108,7 @@ public class GuildDataHandler {
     }
 
     //Prefix Stuff
-    public static List<String> getGuildPrefixes(String guildId) {
+    public static List<String> loadGuildPrefixes(String guildId) {
         JSONObject jfile = loadGuildData(guildId);
         List<String> list = new ArrayList<>();
 
@@ -125,7 +124,7 @@ public class GuildDataHandler {
         return list;
     }
 
-    public static void setGuildPrefixes(String guildId, List<String> list) {
+    public static void saveGuildPrefixes(String guildId, List<String> list) {
         JSONArray ja = new JSONArray();
         for (String s : list) {
             ja.put(s);
@@ -133,52 +132,52 @@ public class GuildDataHandler {
         saveGuildData(guildId, null, null, null, ja);
     }
 
-    //Starboard Stuff
-    public static String getGuildStarboardChannel(String guildId) {
+    //Customboard Stuff
+    public static HashMap<String, Customboard> loadGuildCustomboard(String guildId) {
         JSONObject jfile = loadGuildData(guildId);
 
         try{
-            return jfile.getJSONObject("starboard").getString("channel");
-        }catch(Exception e){
-            return "disabled";
-        }
-    }
-
-    public static void setGuildStarboardChannel(String guildId, String channelId) {
-        JSONObject jfile = loadGuildData(guildId);
-        JSONObject jo;
-
-        jo = new JSONObject().put("channel", channelId);
-
-        saveGuildData(guildId, null, null, jo, null);
-    }
-
-    public static HashMap<String, String> loadGuildStarboard(String guildId) {
-        JSONObject jfile = loadGuildData(guildId);
-
-        try{
-            jfile.get("starboard");
+            jfile.get("customboard");
         }catch(JSONException e){
             return new HashMap<>();
         }
 
-        HashMap<String, String> star = new HashMap<>();
+        HashMap<String, Customboard> star = new HashMap<>();
 
-        for (String s : ((JSONObject) jfile.get("starboard")).keySet()) {
-            star.put(s, jfile.getJSONObject("starboard").getString(s));
+        for(String s : jfile.getJSONObject("customboard").keySet()) {
+            JSONObject jo = jfile.getJSONObject("customboard").getJSONObject(s);
+
+            HashMap<String, String> hm = new HashMap<>();
+            for(String is : jo.getJSONObject("entries").keySet()){
+                hm.put(is, jo.getJSONObject("entries").getString(is));
+            }
+
+            star.put(s, new Customboard(jo.getString("emote"), jo.getString("channel"), jo.getInt("minimum")).setEntries(hm));
         }
+
         return star;
     }
 
-    public static void saveGuildStarboard(String guildId, HashMap<String, String> hashMap) {
+    public static void saveGuildCustomboard(String guildId, HashMap<String, Customboard> hashMap) {
 
-        JSONObject star = new JSONObject();
+        JSONObject cb = new JSONObject();
 
-        for (String s : hashMap.keySet()) {
-            star.put(s, hashMap.get(s));
+        for(String name : hashMap.keySet()) {
+            JSONObject c = new JSONObject();
+            c.put("emote", hashMap.get(name).getEmote());
+            c.put("channel", hashMap.get(name).getChannelID());
+            c.put("minimum", hashMap.get(name).getMinimum());
+            JSONObject e = new JSONObject();
+            if(hashMap.get(name).getEntries() != null) {
+                for(String k : hashMap.get(name).getEntries().keySet()){
+                    e.put(k, hashMap.get(name).getEntries().get(k));
+                }
+            }
+            c.put("entries", e);
+            cb.put(name, c);
         }
 
-        saveGuildData(guildId, null, null, star, null);
+        saveGuildData(guildId, null, null, cb, null);
     }
 
     //Stuff?
@@ -199,7 +198,7 @@ public class GuildDataHandler {
         return new JSONObject(jsons);
     }
 
-    private static void saveGuildData(String guildId, JSONObject perm, JSONArray feeds, JSONObject starboard, JSONArray prefixes) {
+    private static void saveGuildData(String guildId, JSONObject perm, JSONArray feeds, JSONObject customboard, JSONArray prefixes) {
         Path guildDataPath = Paths.get(Config.getGuildDataFile(guildId).getAbsolutePath());
 
         JSONObject jfile = new JSONObject();
@@ -212,11 +211,11 @@ public class GuildDataHandler {
             }catch(JSONException ignored){}
         }
 
-        if (starboard != null) {
-            jfile.put("starboard", starboard);
+        if (customboard != null) {
+            jfile.put("customboard", customboard);
         }else{
             try{
-                jfile.put("starboard", loadGuildData(guildId).get("starboard"));
+                jfile.put("customboard", loadGuildData(guildId).get("customboard"));
             }catch(JSONException ignored){}
         }
 
