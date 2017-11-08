@@ -15,7 +15,7 @@ public class CmdRestart{
 
 
     @Command(name="restart", description = "Restarts the bot.", category = "Bot Owner", usage = "", perms = {L1ghtPerms.BASE, L1ghtPerms.ADMIN})
-    public void run(GuildMessageReceivedEvent event, String[] args) {
+    public static void run(GuildMessageReceivedEvent event, String[] args) {
 
         File currentJar = new File("pls work");
 

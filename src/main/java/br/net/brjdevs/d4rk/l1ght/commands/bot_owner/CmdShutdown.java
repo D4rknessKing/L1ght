@@ -7,7 +7,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 public class CmdShutdown{
 
     @Command(name="shutdown", description = "Shutdowns the bot.", category = "Bot Owner", usage = "", perms = {L1ghtPerms.BASE, L1ghtPerms.ADMIN})
-    public void run(GuildMessageReceivedEvent event, String[] args) {
+    public static void run(GuildMessageReceivedEvent event, String[] args) {
 
         event.getChannel().sendMessage("Bye! :wave:").complete();
         event.getJDA().shutdown();
