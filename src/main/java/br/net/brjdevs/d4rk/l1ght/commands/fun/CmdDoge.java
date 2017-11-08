@@ -1,22 +1,18 @@
 package br.net.brjdevs.d4rk.l1ght.commands.fun;
 
-import br.net.brjdevs.d4rk.l1ght.utils.command.Command;
 import br.net.brjdevs.d4rk.l1ght.utils.L1ghtPerms;
-import javafx.util.Pair;
+import br.net.brjdevs.d4rk.l1ght.utils.command.Command;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-
 import java.awt.Color;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
-public class CmdDoge implements Command {
-    @Override
-    public void cmdRun(GuildMessageReceivedEvent event, String[] args) {
+public class CmdDoge {
+
+    @Command(name="doge", description = "Generate an awesome doge styled meme using your input!", category = "Fun", usage="(Text)", perms = {L1ghtPerms.BASE})
+    public static void run(GuildMessageReceivedEvent event, String[] args) {
 
         String ata = String.join("/", args);
         Random random = new Random();
@@ -37,30 +33,4 @@ public class CmdDoge implements Command {
 
     }
 
-    @Override
-    public String cmdName() {
-        return "doge";
-    }
-
-    @Override
-    public String cmdDescription() {
-        return "Generate an awesome doge styled meme using your input!";
-    }
-
-    @Override
-    public String cmdCategory() {
-        return "Fun";
-    }
-
-    @Override
-    public List<L1ghtPerms> cmdPerm() {
-        return Arrays.asList(L1ghtPerms.BASE);
-    }
-
-    @Override
-    public List<Pair<String, Boolean>> cmdArgs() {
-        List<Pair<String, Boolean>> list = new ArrayList<>();
-        list.add(new Pair<>("Text", true));
-        return list;
-    }
 }

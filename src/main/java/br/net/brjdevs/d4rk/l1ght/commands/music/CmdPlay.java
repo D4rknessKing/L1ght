@@ -5,19 +5,16 @@ import br.net.brjdevs.d4rk.l1ght.utils.Config;
 import br.net.brjdevs.d4rk.l1ght.utils.L1ghtPerms;
 import br.net.brjdevs.d4rk.l1ght.utils.command.Command;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import javafx.util.Pair;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
-
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-public class CmdPlay implements Command{
-    @Override
-    public void cmdRun(GuildMessageReceivedEvent event, String[] args) {
+public class CmdPlay {
+
+    @Command(name="play", description = "Plays the given song.", category = "Music", usage = "[-f] [song]", perms = {L1ghtPerms.BASE})
+    public static void run(GuildMessageReceivedEvent event, String[] args) {
 
         if (event.getMember().getVoiceState().getAudioChannel() == null) { event.getChannel().sendMessage("**Error: **You're not connected to any voice channel.").queue(); return; }
 
@@ -40,19 +37,8 @@ public class CmdPlay implements Command{
 
         if(args[0].equals("-f")) {
             if (args.length == 1) {
-                String usage = "";
-                if (this.cmdArgs() != null) {
-                    for (Pair<String, Boolean> p : this.cmdArgs()) {
-                        if (p.getValue()) {
-                            usage = usage + " (" + p.getKey() + ") ";
-                        } else {
-                            usage = usage + " [" + p.getKey() + "] ";
-                        }
-                    }
-                }
-                usage = Config.prefix + this.cmdName() + " " + usage;
                 event.getChannel().sendMessage("**Error: **Missing arguments!\n" +
-                        "**Correct usage: **`" + usage + "`").queue();
+                        "**Correct usage: **" + Config.hardPrefix+"play [-f] [song]").queue();
                 return;
             }
 
@@ -163,31 +149,4 @@ public class CmdPlay implements Command{
         }
     }
 
-    @Override
-    public String cmdName() {
-        return "play";
-    }
-
-    @Override
-    public String cmdDescription() {
-        return "Plays the given music.";
-    }
-
-    @Override
-    public String cmdCategory() {
-        return "Music";
-    }
-
-    @Override
-    public List<L1ghtPerms> cmdPerm() {
-        return Arrays.asList(L1ghtPerms.BASE, L1ghtPerms.MUSIC, L1ghtPerms.ADMIN);
-    }
-
-    @Override
-    public List<Pair<String, Boolean>> cmdArgs() {
-        List<Pair<String, Boolean>> list = new ArrayList<>();
-        list.add(new Pair<>("-f", false));
-        list.add(new Pair<>("Song", true));
-        return list;
-    }
 }

@@ -5,7 +5,6 @@ import br.net.brjdevs.d4rk.l1ght.handlers.data.GlobalDataHandler;
 import br.net.brjdevs.d4rk.l1ght.handlers.data.GuildDataHandler;
 import br.net.brjdevs.d4rk.l1ght.utils.L1ghtPerms;
 import br.net.brjdevs.d4rk.l1ght.utils.command.Command;
-import javafx.util.Pair;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -14,9 +13,10 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.*;
 
-public class CmdPerm implements Command {
-    @Override
-    public void cmdRun(GuildMessageReceivedEvent event, String[] args) {
+public class CmdPerm {
+
+    @Command(name="perm", description = "Used to manipulate users perms.", category = "Bot Owner", usage = "", perms = {L1ghtPerms.BASE, L1ghtPerms.ADMIN})
+    public static void run(GuildMessageReceivedEvent event, String[] args) {
 
         if(args[0].toLowerCase().equals("add")) {
 
@@ -126,37 +126,7 @@ public class CmdPerm implements Command {
 
     }
 
-    @Override
-    public String cmdName() {
-        return "perm";
-    }
-
-    @Override
-    public String cmdDescription() {
-        return "Used to manipulate users perms.";
-    }
-
-    @Override
-    public String cmdCategory() {
-        return "Bot Owner";
-    }
-
-    @Override
-    public List<L1ghtPerms> cmdPerm() {
-        return Arrays.asList(L1ghtPerms.BASE, L1ghtPerms.ADMIN);
-    }
-
-    @Override
-    public List<Pair<String, Boolean>> cmdArgs() {
-        List<Pair<String, Boolean>> list = new ArrayList<>();
-        list.add(new Pair<>("user or add/remove", true));
-        list.add(new Pair<>("guild/global", false));
-        list.add(new Pair<>("perm", false));
-        list.add(new Pair<>("user", false));
-        return list;
-    }
-
-    private User stringToUser(String shit, GuildMessageReceivedEvent event) {
+    private static User stringToUser(String shit, GuildMessageReceivedEvent event) {
         User usr = null;
 
         try{

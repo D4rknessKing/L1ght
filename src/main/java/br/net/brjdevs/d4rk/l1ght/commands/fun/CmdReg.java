@@ -2,16 +2,14 @@ package br.net.brjdevs.d4rk.l1ght.commands.fun;
 
 import br.net.brjdevs.d4rk.l1ght.utils.L1ghtPerms;
 import br.net.brjdevs.d4rk.l1ght.utils.command.Command;
-import javafx.util.Pair;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class CmdReg implements Command{
-    @Override
-    public void cmdRun(GuildMessageReceivedEvent event, String[] args) {
+public class CmdReg {
+
+    @Command(name="reg", description = "Converts your input to regional indicators.", category = "Fun", usage="(Text)", perms = {L1ghtPerms.BASE})
+    public static void run(GuildMessageReceivedEvent event, String[] args) {
 
         String fin = String.join(" ", args);
         String[] tbl = fin.toLowerCase().split("");
@@ -62,33 +60,6 @@ public class CmdReg implements Command{
         if(ready.length() > 1999) event.getChannel().sendMessage("**Error: **The final result is too big!").queue();
         else event.getChannel().sendMessage(ready).queue();
 
-
     }
 
-    @Override
-    public String cmdName() {
-        return "reg";
-    }
-
-    @Override
-    public String cmdDescription() {
-        return "Converts your input to regional indicators.";
-    }
-
-    @Override
-    public String cmdCategory() {
-        return "Fun";
-    }
-
-    @Override
-    public List<L1ghtPerms> cmdPerm() {
-        return Arrays.asList(L1ghtPerms.BASE);
-    }
-
-    @Override
-    public List<Pair<String, Boolean>> cmdArgs() {
-        List<Pair<String, Boolean>> list = new ArrayList<>();
-        list.add(new Pair<>("Text", true));
-        return list;
-    }
 }

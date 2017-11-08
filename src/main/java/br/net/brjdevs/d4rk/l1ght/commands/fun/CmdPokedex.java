@@ -5,20 +5,16 @@ import br.net.brjdevs.d4rk.l1ght.utils.RandomUtils;
 import br.net.brjdevs.d4rk.l1ght.utils.command.Command;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import javafx.util.Pair;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import org.json.JSONObject;
-
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-public class CmdPokedex implements Command {
-    @Override
-    public void cmdRun(GuildMessageReceivedEvent event, String[] args) {
+public class CmdPokedex {
+
+    @Command(name="pokedex", description = "Shows some information about the given pokemon.", category = "Fun", usage="(Pokemon Name/ID)", perms = {L1ghtPerms.BASE})
+    public static void run(GuildMessageReceivedEvent event, String[] args) {
         try{
             JSONObject json = Unirest.get("http://pokeapi.co/api/v2/pokemon/"+args[0].toLowerCase()+"/").asJson().getBody().getObject();
 
@@ -65,34 +61,5 @@ public class CmdPokedex implements Command {
             e.printStackTrace();
         }
     }
-
-    @Override
-    public String cmdName() {
-        return "pokedex";
-    }
-
-    @Override
-    public String cmdDescription() {
-        return "Shows some information about the given pokemon.";
-    }
-
-    @Override
-    public String cmdCategory() {
-        return "Fun";
-    }
-
-    @Override
-    public List<L1ghtPerms> cmdPerm() {
-        return Arrays.asList(L1ghtPerms.BASE);
-    }
-
-    @Override
-    public List<Pair<String, Boolean>> cmdArgs() {
-        List<Pair<String, Boolean>> list = new ArrayList<>();
-        list.add(new Pair<>("Pokemon Name/ID", true));
-        return list;
-    }
-
-
 
 }

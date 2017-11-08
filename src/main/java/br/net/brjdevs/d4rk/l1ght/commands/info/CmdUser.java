@@ -2,19 +2,16 @@ package br.net.brjdevs.d4rk.l1ght.commands.info;
 
 import br.net.brjdevs.d4rk.l1ght.utils.L1ghtPerms;
 import br.net.brjdevs.d4rk.l1ght.utils.command.Command;
-import javafx.util.Pair;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class CmdUser implements Command {
-    @Override
-    public void cmdRun(GuildMessageReceivedEvent event, String[] args) {
+public class CmdUser {
+
+    @Command(name="user", description = "Gives some information about the mentioned user.", category = "Info", usage = "(User ID/Name/Nickname/Mention)", perms = {L1ghtPerms.BASE})
+    public static void run(GuildMessageReceivedEvent event, String[] args) {
 
         String shit = String.join(" ",args);
 
@@ -108,30 +105,4 @@ public class CmdUser implements Command {
 
     }
 
-    @Override
-    public String cmdName() {
-        return "user";
-    }
-
-    @Override
-    public String cmdDescription() {
-        return "Gives some information about the mentioned user.";
-    }
-
-    @Override
-    public String cmdCategory() {
-        return "Info";
-    }
-
-    @Override
-    public List<L1ghtPerms> cmdPerm() {
-        return Arrays.asList(L1ghtPerms.BASE);
-    }
-
-    @Override
-    public List<Pair<String, Boolean>> cmdArgs() {
-        List<Pair<String, Boolean>> list = new ArrayList<>();
-        list.add(new Pair<>("User ID/Name/Nickname/Mention", true));
-        return list;
-    }
 }

@@ -4,20 +4,17 @@ import br.net.brjdevs.d4rk.l1ght.utils.L1ghtPerms;
 import br.net.brjdevs.d4rk.l1ght.utils.command.Command;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import javafx.util.Pair;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import org.json.JSONObject;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-public class CmdColor implements Command {
-    @Override
-    public void cmdRun(GuildMessageReceivedEvent event, String[] args) {
+public class CmdColor  {
+
+    @Command(name = "color", description = "Gives you information about a given color", category = "Utils", usage = "(hex/red) [green] [blue]", perms = {L1ghtPerms.BASE})
+    public static void color(GuildMessageReceivedEvent event, String[] args) {
 
         JSONObject json = null;
 
@@ -71,33 +68,6 @@ public class CmdColor implements Command {
             event.getChannel().sendMessage("**Error: **Unkwnown color!").queue();
         }
 
-
     }
 
-    @Override
-    public String cmdName() {
-        return "color";
-    }
-
-    @Override
-    public String cmdDescription() {
-        return "Gives you information about a color";
-    }
-
-    @Override
-    public String cmdCategory() {
-        return "Utils";
-    }
-
-    @Override
-    public List<L1ghtPerms> cmdPerm() { return Arrays.asList(L1ghtPerms.BASE); }
-
-    @Override
-    public List<Pair<String, Boolean>> cmdArgs() {
-        List<Pair<String, Boolean>> list = new ArrayList();
-        list.add(new Pair<>("hex/red", true));
-        list.add(new Pair<>("green", false));
-        list.add(new Pair<>("blue", false));
-        return list;
-    }
 }

@@ -53,6 +53,7 @@ public class SongSearchQuery {
         AudioUtils.queryList.add(this);
     }
 
+
     public void choose(int i) {
         if(i == 1){
             if(at1 != null) {
@@ -85,5 +86,6 @@ public class SongSearchQuery {
 
         AudioUtils.queryList.remove(this);
     }
+
 
 }

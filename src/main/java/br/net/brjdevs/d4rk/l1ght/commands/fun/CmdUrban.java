@@ -3,20 +3,16 @@ package br.net.brjdevs.d4rk.l1ght.commands.fun;
 import br.net.brjdevs.d4rk.l1ght.utils.L1ghtPerms;
 import br.net.brjdevs.d4rk.l1ght.utils.command.Command;
 import com.mashape.unirest.http.Unirest;
-import javafx.util.Pair;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+public class CmdUrban {
 
-public class CmdUrban implements Command {
-    @Override
-    public void cmdRun(GuildMessageReceivedEvent event, String[] args) {
+    @Command(name="urban", description = "Search for stuff in the Urban Dictionary", category = "Fun", usage="(Term)", perms = {L1ghtPerms.BASE})
+    public static void run(GuildMessageReceivedEvent event, String[] args) {
 
         String ata = String.join("%20", args);
         JSONObject urban;
@@ -46,30 +42,4 @@ public class CmdUrban implements Command {
 
     }
 
-    @Override
-    public String cmdName() {
-        return "urban";
-    }
-
-    @Override
-    public String cmdDescription() {
-        return "Search for stuff in the Urban Dictionary";
-    }
-
-    @Override
-    public String cmdCategory() {
-        return "Fun";
-    }
-
-    @Override
-    public List<L1ghtPerms> cmdPerm() {
-        return Arrays.asList(L1ghtPerms.BASE);
-    }
-
-    @Override
-    public List<Pair<String, Boolean>> cmdArgs() {
-        List<Pair<String, Boolean>> args =  new ArrayList<>();
-        args.add(new Pair<>("Search", true));
-        return args;
-    }
 }

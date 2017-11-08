@@ -5,70 +5,87 @@ import br.net.brjdevs.d4rk.l1ght.utils.Config;
 import br.net.brjdevs.d4rk.l1ght.utils.command.Command;
 import br.net.brjdevs.d4rk.l1ght.utils.command.CommandRegister;
 import br.net.brjdevs.d4rk.l1ght.utils.L1ghtPerms;
-import javafx.util.Pair;
+import br.net.brjdevs.d4rk.l1ght.utils.command.RegisteredCommand;
+import br.net.brjdevs.d4rk.l1ght.utils.command.RegisteredSubCommand;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.MessageEmbed.Field;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.*;
 
-public class CmdHelp implements Command {
+public class CmdHelp {
 
-    @Override
-    public void cmdRun(GuildMessageReceivedEvent event, String[] args) {
-        HashMap<String, Command> hashMap = CommandRegister.getCommandMap();
+    @Command(name="help", description = "Shows this.", category = "Utils", usage = "[command]", perms = {L1ghtPerms.BASE})
+    public static void help(GuildMessageReceivedEvent event, String[] args) {
+        HashMap<String, RegisteredCommand> hashMap = CommandRegister.getCommandMap();
         List<String> argsl = Arrays.asList(args);
 
 
         if(argsl.size() >= 1){
             if(hashMap.get(argsl.get(0)) == null) {
-                event.getChannel().sendMessage("Unknown Command").queue();
+                event.getChannel().sendMessage("**Error: **Unknown Command").queue();
             }else{
-                Command cmd = hashMap.get(argsl.get(0));
+                RegisteredCommand cmd = hashMap.get(argsl.get(0));
 
-                String usage = "";
-                if(cmd.cmdArgs() != null) {
-                    for(Pair<String, Boolean> p : cmd.cmdArgs()) {
-                        if (p.getValue()) {
-                            usage = usage + " (" + p.getKey() + ") ";
-                        } else {
-                            usage = usage + " [" + p.getKey() + "] ";
+                String description = "";
+                if(cmd.getDescription().length() > 0){
+                    description = "**" + cmd.getDescription() + "**\n";
+                }
+                Field pcf = null;
+                if(!cmd.getUsage().equals("null")){
+                    String permission = "**Permission: **" + cmd.getPerms().toString();
+                    pcf = new Field((Config.hardPrefix + cmd.getName() + " " + cmd.getUsage()).replace("null", ""), description  + permission, false);
+
+                }
+
+                String description2 = "";
+                if(pcf == null && description.length() > 0){
+                    description2 = description;
+                }
+
+                List<Field> scf = new ArrayList<>();
+                if(cmd.getSubCommands() != null) {
+                for(RegisteredSubCommand s : cmd.getSubCommands().values()){
+                        String subdescription = "";
+                        if(s.getDescription().length() > 0){
+                            subdescription = "    **" + s.getDescription() + "**\n";
                         }
+                        scf.add(new Field(Config.hardPrefix + cmd.getName() + " " + s.getName() + " " + s.getUsage(), subdescription + "**Permission: **" + s.getPerms().toString() , false));
                     }
                 }
 
-                String description = "**Name: **" + cmd.cmdName() + "\n" +
-                        "**Description: **" + cmd.cmdDescription() + "\n" +
-                        "**Category: **" + cmd.cmdCategory() + "\n" +
-                        "**Permission: **" + cmd.cmdPerm().toString() + "\n" +
-                        "**Usage: **" + Config.hardPrefix + cmd.cmdName() + usage;
 
-                MessageEmbed embed = new EmbedBuilder()
+                EmbedBuilder embed = new EmbedBuilder()
                         .setTitle("Command Information:", null)
-                        .setDescription(description)
                         .setFooter("Requested by: " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator(), event.getAuthor().getAvatarUrl())
+                        .setDescription(description2 + "**Category: **" + cmd.getCategory())
                         .setColor(event.getMember().getColor())
-                        .build();
+                        .addField(pcf);
 
-                event.getChannel().sendMessage(embed).queue();
+                for(Field f : scf){
+                    embed.addField(f);
+                }
+
+                event.getChannel().sendMessage(embed.build()).queue();
 
             }
 
         }else{
-            HashMap<String, List<Command>> helpMap = new HashMap<>();
+            HashMap<String, List<RegisteredCommand>> helpMap = new HashMap<>();
 
             for (String i : hashMap.keySet()) {
-                if (hashMap.get(i).cmdCategory() != null) {
-                    helpMap.computeIfAbsent(hashMap.get(i).cmdCategory(), k -> new ArrayList<Command>());
-                    helpMap.get(hashMap.get(i).cmdCategory()).add(hashMap.get(i));
+                if (!hashMap.get(i).getCategory().equals("")) {
+                    helpMap.computeIfAbsent(hashMap.get(i).getCategory(), k -> new ArrayList<RegisteredCommand>());
+                    helpMap.get(hashMap.get(i).getCategory()).add(hashMap.get(i));
                 }
             }
 
             String description = "";
             for (String i : helpMap.keySet()) {
                 description = description + "\n**" + i + "**: ";
-                for (Command c : helpMap.get(i)) {
-                    description = description + "`" + c.cmdName() + "`, ";
+                for (RegisteredCommand c : helpMap.get(i)) {
+                    description = description + "`" + c.getName() + "`, ";
                 }
                 description = description.substring(0, description.length() - 2);
             }
@@ -86,30 +103,4 @@ public class CmdHelp implements Command {
         }
     }
 
-    @Override
-    public String cmdName() {
-        return "help";
-    }
-
-    @Override
-    public String cmdDescription() {
-        return "Shows this.";
-    }
-
-    @Override
-    public String cmdCategory() {
-        return "Utils";
-    }
-
-    @Override
-    public List<L1ghtPerms> cmdPerm() {
-        return Arrays.asList(L1ghtPerms.BASE);
-    }
-
-    @Override
-    public List<Pair<String, Boolean>> cmdArgs() {
-        List<Pair<String, Boolean>> list = new ArrayList<>();
-        list.add(new Pair<>("Command", false));
-        return list;
-    }
 }

@@ -6,19 +6,16 @@ import br.net.brjdevs.d4rk.l1ght.utils.Config;
 import br.net.brjdevs.d4rk.l1ght.utils.L1ghtPerms;
 import br.net.brjdevs.d4rk.l1ght.utils.command.Command;
 import com.mashape.unirest.http.Unirest;
-import javafx.util.Pair;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-public class CmdLyrics implements Command{
-    @Override
-    public void cmdRun(GuildMessageReceivedEvent event, String[] args) {
+public class CmdLyrics {
+
+    @Command(name="lyrics", description = "Search for songs lyrics.", category = "Music", usage = "[-f] [song]", perms = {L1ghtPerms.BASE})
+    public static void run(GuildMessageReceivedEvent event, String[] args) {
 
         if(args.length == 0){
             if (AudioUtils.connections.get(event.getGuild().getId()) != null && AudioUtils.connections.get(event.getGuild().getId()).isRunning){
@@ -40,19 +37,8 @@ public class CmdLyrics implements Command{
         }else{
             if(args[0].equals("-f")) {
                 if(args.length == 1) {
-                    String usage = "";
-                    if(this.cmdArgs() != null) {
-                        for(Pair<String, Boolean> p : this.cmdArgs()) {
-                            if (p.getValue()) {
-                                usage = usage + " (" + p.getKey() + ") ";
-                            } else {
-                                usage = usage + " [" + p.getKey() + "] ";
-                            }
-                        }
-                    }
-                    usage = Config.prefix+this.cmdName()+" "+usage;
                     event.getChannel().sendMessage("**Error: **Missing arguments!\n" +
-                            "**Correct usage: **`"+usage+"`").queue();
+                            "**Correct usage: **"+Config.hardPrefix+"lyrics [-f] [song]").queue();
                     return;
                 }
                 String potato = String.join("%20", Arrays.copyOfRange(args, 1, args.length));
@@ -89,33 +75,5 @@ public class CmdLyrics implements Command{
             }
         }
 
-    }
-
-    @Override
-    public String cmdName() {
-        return "lyrics";
-    }
-
-    @Override
-    public String cmdDescription() {
-        return "Search for songs lyrics.";
-    }
-
-    @Override
-    public String cmdCategory() {
-        return "Music";
-    }
-
-    @Override
-    public List<L1ghtPerms> cmdPerm() {
-        return Arrays.asList(L1ghtPerms.BASE);
-    }
-
-    @Override
-    public List<Pair<String, Boolean>> cmdArgs() {
-        List<Pair<String, Boolean>> list = new ArrayList<>();
-        list.add(new Pair<>("-f", false));
-        list.add(new Pair<>("Song", false));
-        return list;
     }
 }

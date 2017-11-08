@@ -15,9 +15,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CmdRole implements Command {
-    @Override
-    public void cmdRun(GuildMessageReceivedEvent event, String[] args) {
+public class CmdRole {
+
+    @Command(name="role", description = "Gives some information about the given role.", category = "Info", usage = "(Role Name/ID)", perms = {L1ghtPerms.BASE})
+    public static void run(GuildMessageReceivedEvent event, String[] args) {
 
         String shit = String.join(" ",args);
 
@@ -63,30 +64,4 @@ public class CmdRole implements Command {
 
     }
 
-    @Override
-    public String cmdName() {
-        return "role";
-    }
-
-    @Override
-    public String cmdDescription() {
-        return "Gives some information about the given role.";
-    }
-
-    @Override
-    public String cmdCategory() {
-        return "Info";
-    }
-
-    @Override
-    public List<L1ghtPerms> cmdPerm() {
-        return Arrays.asList(L1ghtPerms.BASE);
-    }
-
-    @Override
-    public List<Pair<String, Boolean>> cmdArgs() {
-        List<Pair<String, Boolean>> list = new ArrayList<>();
-        list.add(new Pair<>("Role Name/ID", true));
-        return list;
-    }
 }

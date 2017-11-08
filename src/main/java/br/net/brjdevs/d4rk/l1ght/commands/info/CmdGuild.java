@@ -2,19 +2,16 @@ package br.net.brjdevs.d4rk.l1ght.commands.info;
 
 import br.net.brjdevs.d4rk.l1ght.utils.L1ghtPerms;
 import br.net.brjdevs.d4rk.l1ght.utils.command.Command;
-import javafx.util.Pair;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
 
-public class CmdGuild implements Command {
-    @Override
-    public void cmdRun(GuildMessageReceivedEvent event, String[] args) {
+public class CmdGuild {
+
+    @Command(name="guild", description = "Gives some information about the current guild.", category = "Info", usage = "", perms = {L1ghtPerms.BASE})
+    public static void run(GuildMessageReceivedEvent event, String[] args) {
 
         Guild g = event.getGuild();
 
@@ -55,28 +52,4 @@ public class CmdGuild implements Command {
 
     }
 
-    @Override
-    public String cmdName() {
-        return "guild";
-    }
-
-    @Override
-    public String cmdDescription() {
-        return "Gives some information about the current guild.";
-    }
-
-    @Override
-    public String cmdCategory() {
-        return "Info";
-    }
-
-    @Override
-    public List<L1ghtPerms> cmdPerm() {
-        return Arrays.asList(L1ghtPerms.BASE);
-    }
-
-    @Override
-    public List<Pair<String, Boolean>> cmdArgs() {
-        return null;
-    }
 }

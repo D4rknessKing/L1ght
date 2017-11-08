@@ -3,19 +3,16 @@ package br.net.brjdevs.d4rk.l1ght.commands.fun;
 import br.net.brjdevs.d4rk.l1ght.utils.L1ghtPerms;
 import br.net.brjdevs.d4rk.l1ght.utils.command.Command;
 import com.mashape.unirest.http.Unirest;
-import javafx.util.Pair;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-
 import java.awt.*;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
-public class CmdRcg implements Command {
-    @Override
-    public void cmdRun(GuildMessageReceivedEvent event, String[] args) {
+public class CmdRcg {
+
+    @Command(name="rcg", description = "Generates a comic using Explosm's Random Comic Generator.", category = "Fun", usage="", perms = {L1ghtPerms.BASE})
+    public static void run(GuildMessageReceivedEvent event, String[] args) {
         try{
             String rcg = Unirest.get("http://explosm.net/rcg/").asString().getBody();
             int indexStart = rcg.lastIndexOf("<div id=\"rcg-comic\">\n" +
@@ -41,28 +38,4 @@ public class CmdRcg implements Command {
         }
     }
 
-    @Override
-    public String cmdName() {
-        return "rcg";
-    }
-
-    @Override
-    public String cmdDescription() {
-        return "Generates a comic using Explosm's Random Comic Generator.";
-    }
-
-    @Override
-    public String cmdCategory() {
-        return "Fun";
-    }
-
-    @Override
-    public List<L1ghtPerms> cmdPerm() {
-        return Arrays.asList(L1ghtPerms.BASE);
-    }
-
-    @Override
-    public List<Pair<String, Boolean>> cmdArgs() {
-        return null;
-    }
 }
