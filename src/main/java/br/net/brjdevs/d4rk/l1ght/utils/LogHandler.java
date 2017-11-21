@@ -14,6 +14,10 @@ public class LogHandler {
     public static SimpleLog log = SimpleLog.getLog("L1ght");
 
     public static void start(){
+        if(Config.logChannel == null || L1ght.jda.getTextChannelById(Config.logChannel) == null){
+            log.warn("Can't log to discord, unknown channel.");
+            return;
+        }
         DateFormat dateFormat = new SimpleDateFormat("[HH:mm:ss]");
         TextChannel tc = L1ght.jda.getTextChannelById("255081000785281025");
         LogListener listener = new LogListener() {

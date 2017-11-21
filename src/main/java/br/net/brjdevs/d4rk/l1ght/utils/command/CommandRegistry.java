@@ -44,6 +44,7 @@ public class CommandRegistry {
         CommandRegister.register(CmdShutdown.class);
         CommandRegister.register(CmdPrefix.class);
         CommandRegister.register(CmdPerm.class);
+        CommandRegister.register(CmdStats.class);
     }
 
 }

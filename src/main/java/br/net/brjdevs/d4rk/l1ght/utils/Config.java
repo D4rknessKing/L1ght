@@ -1,6 +1,7 @@
 package br.net.brjdevs.d4rk.l1ght.utils;
 
 import br.net.brjdevs.d4rk.l1ght.L1ght;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -10,21 +11,22 @@ import java.nio.file.Paths;
 
 public class Config {
 
-    public static String prefix;
-    public static String hardPrefix;
-    public static String defaultPlaying;
-    public static boolean isStreaming;
+    public static String prefix = null;
+    public static String hardPrefix = null;
+    public static String defaultPlaying = null;
+    public static boolean isStreaming = false;
+    public static String logChannel = null;
 
-    public static String token;
-    public static String mashapeKey;
-    public static String vagalumeKey;
+    public static String token = null;
+    public static String mashapeKey = null;
+    public static String vagalumeKey = null;
 
-    public static String twitterConsumer;
-    public static String twitterConsumerSecret;
-    public static String twitterToken;
-    public static String twitterTokenSecret;
+    public static String twitterConsumer = null;
+    public static String twitterConsumerSecret = null;
+    public static String twitterToken = null;
+    public static String twitterTokenSecret = null;
 
-    private static boolean redditStream;
+    private static boolean redditStream = false;
 
     public static void loadConfig() {
 
@@ -44,30 +46,31 @@ public class Config {
 
         JSONObject json = new JSONObject(jsons);
 
-        prefix = json.getString("prefix");
-        hardPrefix = json.getString("hardPrefix");
-        defaultPlaying = json.getString("defaultPlaying");
-        defaultPlaying = defaultPlaying.replace("%", prefix);
-        isStreaming = json.getBoolean("isStreaming");
+        try{prefix = json.getString("prefix");}catch(Exception ignored){}
+        try{hardPrefix = json.getString("hardPrefix");}catch(Exception ignored){}
+        try{ defaultPlaying = json.getString("defaultPlaying");}catch(Exception ignored){}
+        try{defaultPlaying = defaultPlaying.replace("%", prefix);}catch(Exception ignored){}
+        try{isStreaming = json.getBoolean("isStreaming");}catch(Exception ignored){}
+        try{logChannel = json.getString("logChannel");}catch(Exception ignored){}
 
-        token = json.getString("token");
-        mashapeKey = json.getString("mashapeKey");
-        vagalumeKey = json.getString("vagalumeKey");
+        try{token = json.getString("token");}catch(Exception ignored){}
+        try{mashapeKey = json.getString("mashapeKey");}catch(Exception ignored){}
+        try{vagalumeKey = json.getString("vagalumeKey");}catch(Exception ignored){}
 
-        twitterConsumer = json.getString("twitterConsumer");
-        twitterConsumerSecret = json.getString("twitterConsumerSecret");
-        twitterToken = json.getString("twitterToken");
-        twitterTokenSecret = json.getString("twitterTokenSecret");
+        try{twitterConsumer = json.getString("twitterConsumer");}catch(Exception ignored){}
+        try{twitterConsumerSecret = json.getString("twitterConsumerSecret");}catch(Exception ignored){}
+        try{twitterToken = json.getString("twitterToken");}catch(Exception ignored){}
+        try{twitterTokenSecret = json.getString("twitterTokenSecret");}catch(Exception ignored){}
 
-        redditStream = json.getBoolean("redditStream");
+        try{redditStream = json.getBoolean("redditStream");}catch(Exception ignored){}
     }
 
     public static boolean isTwitterEnabled() {
-        if(twitterTokenSecret.length() > 5 && twitterToken.length() > 5 && twitterConsumerSecret.length() > 5 && twitterConsumer.length() > 5){
-            return true;
-        }else{
-            return false;
-        }
+        if((twitterTokenSecret.length() > 5 || twitterTokenSecret == null) ||
+           (twitterToken.length() > 5 || twitterToken == null) ||
+           (twitterConsumerSecret.length() > 5 || twitterConsumerSecret == null) ||
+           (twitterConsumer.length() > 5 || twitterConsumer == null)
+        ){ return true; }else{ return false; }
     }
 
     public static boolean isRedditEnabled() {
@@ -83,6 +86,7 @@ public class Config {
         jfile.put("hardPrefix", "");
         jfile.put("defaultPlaying", "");
         jfile.put("isStreaming", false);
+        jfile.put("logChannel", "");
         jfile.put("token", "");
         jfile.put("mashapeKey", "");
         jfile.put("vagalumeKey", "");

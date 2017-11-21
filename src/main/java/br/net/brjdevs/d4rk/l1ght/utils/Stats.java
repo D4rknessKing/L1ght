@@ -2,7 +2,7 @@ package br.net.brjdevs.d4rk.l1ght.utils;
 
 public class Stats {
 
-    public static long loginTime = 0;
+    public final static long loginTime = System.currentTimeMillis();
 
     public static int readMessages = 0;
     public static int sendMessages = 0;
