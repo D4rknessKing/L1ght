@@ -5,6 +5,7 @@ import br.net.brjdevs.d4rk.l1ght.handlers.data.GlobalDataHandler;
 import br.net.brjdevs.d4rk.l1ght.utils.L1ghtPerms;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.User;
 
 import java.util.ArrayList;
@@ -20,6 +21,16 @@ public class PermissionHandler {
         for (L1ghtPerms lp : lperm) {
             if(lp == L1ghtPerms.GUILD) {
                 if (!guild.getMember(user).hasPermission(Permission.ADMINISTRATOR)) {
+                    copy.add(lp);
+                }
+            }else if(lp == L1ghtPerms.DJ) {
+                boolean djCheck = false;
+                for(Role role : guild.getMember(user).getRoles()){
+                    if(role.getName().equalsIgnoreCase("dj")){
+                        djCheck = true;
+                    }
+                }
+                if(!djCheck){
                     copy.add(lp);
                 }
             }else{

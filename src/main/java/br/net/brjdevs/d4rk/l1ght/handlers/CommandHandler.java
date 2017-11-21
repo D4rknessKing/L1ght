@@ -1,23 +1,24 @@
 package br.net.brjdevs.d4rk.l1ght.handlers;
 
-import br.net.brjdevs.d4rk.l1ght.commands.games.CmdSplatoon2;
 import br.net.brjdevs.d4rk.l1ght.music.lyrics.LyricsSearchQuery;
 import br.net.brjdevs.d4rk.l1ght.music.lyrics.LyricsUtils;
 import br.net.brjdevs.d4rk.l1ght.music.SongSearchQuery;
 import br.net.brjdevs.d4rk.l1ght.music.AudioUtils;
 import br.net.brjdevs.d4rk.l1ght.utils.Config;
+import br.net.brjdevs.d4rk.l1ght.utils.LogHandler;
+import br.net.brjdevs.d4rk.l1ght.utils.Stats;
 import br.net.brjdevs.d4rk.l1ght.utils.command.CommandRegister;
 import br.net.brjdevs.d4rk.l1ght.utils.command.RegisteredCommand;
 import br.net.brjdevs.d4rk.l1ght.utils.command.RegisteredSubCommand;
-import javafx.util.Pair;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.utils.SimpleLog;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MessageHandler {
+public class CommandHandler {
 
     public static void handle(GuildMessageReceivedEvent event) {
 
@@ -83,7 +84,6 @@ public class MessageHandler {
 
             String[] args = rawContent.split("\\s+");
 
-
             if(commandMap.keySet().contains(args[0])){
 
                 RegisteredCommand cmd = commandMap.get(args[0]);
@@ -118,6 +118,16 @@ public class MessageHandler {
                         if (PermissionHandler.hasPerm(event.getAuthor(), event.getGuild(), s.getPerms())) {
                             try{
                                 s.getCommand().invoke(null, event, args);
+                                LogHandler.log.log(SimpleLog.Level.INFO, String.format("%s(%s) executed: %s%s, at guild: %s(%s), on channel: #%s(%s)",
+                                        event.getAuthor().getName(),
+                                        event.getAuthor().getId(),
+                                        prefix,
+                                        s.getName(),
+                                        event.getGuild().getName(),
+                                        event.getGuild().getId(),
+                                        event.getChannel().getName(),
+                                        event.getChannel().getId()));
+                                Stats.executedCommands++;
                             }catch (Exception e) {e.printStackTrace();}
                         }else{
                             event.getChannel().sendMessage("**Error: **You don't have all the required permissions: `" + s.getPerms().toString() + "`").queue();
@@ -164,6 +174,16 @@ public class MessageHandler {
                 if (PermissionHandler.hasPerm(event.getAuthor(), event.getGuild(), cmd.getPerms())) {
                     try{
                         cmd.getCommand().invoke(null, event, args);
+                        LogHandler.log.log(SimpleLog.Level.INFO, String.format("%s(%s) executed: %s%s, at guild: %s(%s), on channel: #%s(%s)",
+                                event.getAuthor().getName(),
+                                event.getAuthor().getId(),
+                                prefix,
+                                cmd.getName(),
+                                event.getGuild().getName(),
+                                event.getGuild().getId(),
+                                event.getChannel().getName(),
+                                event.getChannel().getId()));
+                        Stats.executedCommands++;
                     }catch (Exception e) {e.printStackTrace();}
                 }else{
                 event.getChannel().sendMessage("**Error: **You don't have all the required permissions: `" + cmd.getPerms().toString() + "`").queue();

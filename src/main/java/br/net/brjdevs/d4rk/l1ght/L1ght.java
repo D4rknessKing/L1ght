@@ -3,10 +3,13 @@ package br.net.brjdevs.d4rk.l1ght;
 import br.net.brjdevs.d4rk.l1ght.handlers.PrefixHandler;
 import br.net.brjdevs.d4rk.l1ght.handlers.feeds.RedditHandler;
 import br.net.brjdevs.d4rk.l1ght.handlers.feeds.TwitterHandler;
+import br.net.brjdevs.d4rk.l1ght.listeners.GuildJoinLeaveListener;
 import br.net.brjdevs.d4rk.l1ght.listeners.GuildMessageListener;
 import br.net.brjdevs.d4rk.l1ght.listeners.GuildReactionListener;
+import br.net.brjdevs.d4rk.l1ght.listeners.GuildVoiceChannelListener;
 import br.net.brjdevs.d4rk.l1ght.music.AudioUtils;
 import br.net.brjdevs.d4rk.l1ght.utils.Config;
+import br.net.brjdevs.d4rk.l1ght.utils.LogHandler;
 import br.net.brjdevs.d4rk.l1ght.utils.command.CommandRegister;
 import br.net.brjdevs.d4rk.l1ght.utils.command.CommandRegistry;
 import br.net.brjdevs.d4rk.l1ght.utils.command.RegisteredCommand;
@@ -26,19 +29,23 @@ public class L1ght {
 
         CommandRegistry.registerCmds();
         Config.loadConfig();
+
         AudioUtils.init();
-        //System.setProperty("ui4j.headless", "true");
         PrefixHandler.start();
 
         try {
             jda = new JDABuilder(AccountType.BOT)
-                .setToken(Config.token)
-                .addEventListener(new GuildMessageListener())
-                .addEventListener(new GuildReactionListener())
-                .buildBlocking();
+                    .setToken(Config.token)
+                    .addEventListener(new GuildMessageListener())
+                    .addEventListener(new GuildReactionListener())
+                    .addEventListener(new GuildVoiceChannelListener())
+                    .addEventListener(new GuildJoinLeaveListener())
+                    .buildBlocking();
         }catch (Exception e){
 
         }
+
+        LogHandler.start();
 
         if(Config.isTwitterEnabled()){
             TwitterHandler.start();

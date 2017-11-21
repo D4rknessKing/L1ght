@@ -7,7 +7,6 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +16,7 @@ public class AudioQueue extends AudioEventAdapter {
     public AudioPlayer player;
     public GuildMessageReceivedEvent event;
 
+    public List<String> skipVotes = new ArrayList<>();
     public List<AudioTrack> queue = new ArrayList<>();
     public boolean isRunning = false;
 
@@ -61,6 +61,7 @@ public class AudioQueue extends AudioEventAdapter {
 
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
+        skipVotes = new ArrayList<>();
         if(queue.get(0) != null) queue.remove(0);
         if (endReason.mayStartNext || endReason == AudioTrackEndReason.STOPPED) {
             if(queue.size() > 0){
