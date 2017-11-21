@@ -5,7 +5,6 @@ import br.net.brjdevs.d4rk.l1ght.utils.L1ghtPerms;
 import br.net.brjdevs.d4rk.l1ght.utils.command.Command;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.events.guild.voice.GenericGuildVoiceEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 public class CmdSkip {
