@@ -4,6 +4,7 @@ import br.net.brjdevs.d4rk.l1ght.L1ght;
 import br.net.brjdevs.d4rk.l1ght.utils.Config;
 import br.net.brjdevs.d4rk.l1ght.utils.FeedsType;
 import br.net.brjdevs.d4rk.l1ght.utils.Paste;
+import br.net.brjdevs.d4rk.l1ght.utils.Stats;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -112,6 +113,7 @@ public class RedditHandler {
                                             }
                                             L1ght.jda.getGuildById(r.guildId).getTextChannelById(r.channelId).sendMessage(embed.build()).queue(e -> {
                                                 log.log(SimpleLog.Level.INFO, "Got a match on /r/" + r.subreddit + ", at guild: " + e.getGuild().getName() + "(" + e.getGuild().getId() + "), on channel: #" + e.getChannel().getName() + "(" + e.getChannel().getId() + ")");
+                                                Stats.redditMatches++;
                                             });
                                         }
                                     }

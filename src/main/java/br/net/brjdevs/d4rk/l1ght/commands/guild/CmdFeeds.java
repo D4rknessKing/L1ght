@@ -102,7 +102,7 @@ public class CmdFeeds {
             }else if(type == FeedsType.REDDIT) {
                 try{
                     JSONObject json = Unirest
-                            .get("https://www.reddit.com/r/"+args[3].toLowerCase()+"/.json")
+                            .get("https://www.reddit.com/r/"+args[2].toLowerCase()+"/.json")
                             .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36")
                             .asJson().getBody().getObject();
                     String test = json.getString("kind");
@@ -128,7 +128,7 @@ public class CmdFeeds {
         if(!registered.contains(args[0])){
             event.getChannel().sendMessage("**Error: ** There's no available feed with this name!").queue();
         }else{
-            FeedsHandler.removeFeed(event.getGuild().getId(), event.getChannel().getId(), args[1]);
+            FeedsHandler.removeFeed(event.getGuild().getId(), event.getChannel().getId(), args[0]);
             event.getChannel().sendMessage("**Successfully removed feed!**").queue();
         }
 

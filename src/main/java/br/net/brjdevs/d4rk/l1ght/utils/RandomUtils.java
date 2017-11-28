@@ -81,7 +81,7 @@ public class RandomUtils {
                 + (minutes == 0 ? "" : minutes + " Minute" + cS(minutes) + ", ") + (seconds == 0 ? "" : seconds + " Second" + cS(seconds) + ", ");
 
         uptime = replaceLast(uptime, ", ", "");
-        uptime = replaceLast(uptime, ",", " e");
+        uptime = replaceLast(uptime, ",", " and");
 
         return uptime;
     }

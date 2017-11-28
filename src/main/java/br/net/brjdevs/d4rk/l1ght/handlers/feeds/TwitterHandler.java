@@ -4,6 +4,7 @@ package br.net.brjdevs.d4rk.l1ght.handlers.feeds;
 import br.net.brjdevs.d4rk.l1ght.L1ght;
 import br.net.brjdevs.d4rk.l1ght.utils.Config;
 import br.net.brjdevs.d4rk.l1ght.utils.FeedsType;
+import br.net.brjdevs.d4rk.l1ght.utils.Stats;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.utils.SimpleLog;
 import org.json.JSONObject;
@@ -68,6 +69,7 @@ public class TwitterHandler {
                         }
                         L1ght.jda.getGuildById(ts.guildId).getTextChannelById(ts.channelId).sendMessage(eb.build()).queue(e -> {
                             SimpleLog.getLog("Twitter-Stream").log(SimpleLog.Level.INFO, "Got a match on @"+ts.name+", at guild: "+e.getGuild().getName()+"("+e.getGuild().getId()+"), on channel: #"+e.getChannel().getName()+"("+e.getChannel().getId()+")");
+                            Stats.twitterMatches++;
                         });
                     }
                 }
