@@ -22,7 +22,7 @@ public class CommandHandler {
 
     public static void handle(GuildMessageReceivedEvent event) {
 
-        if (!event.getChannel().canTalk()) {
+        if (!event.getChannel().canTalk() || event.getAuthor().isBot()) {
             return;
         }
 
